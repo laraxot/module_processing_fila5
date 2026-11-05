@@ -87,9 +87,6 @@ Protezione dai cicli: un cammino non riattraversa i propri antenati; limiti `$ma
   si apre anche con `?code=SU-2026-000123`.
 
 I bottoni sono classi in `app/Filament/Actions` e chiamano solo le Actions di dominio. Tutti i testi stanno in
-<<<<<<< HEAD
-`lang/{it,en}`.
-=======
 `lang/{it,en}`. Ogni bottone che cambia l'ordine dichiara un'abilità della `ProcessingOrderPolicy`
 (`authorizeOrder()`, ricontrollata nella callback con `ensureAllowed()`): senza permesso il bottone non compare
 e una chiamata Livewire diretta viene rifiutata.
@@ -105,13 +102,10 @@ e una chiamata Livewire diretta viene rifiutata.
 
 Il toggle "forza chiusura" compare solo a chi ha `forceComplete` (di norma il responsabile); una richiesta
 con `force = true` senza l'abilità viene rifiutata.
->>>>>>> laraxot/dev
 
 ## Punti di estensione
 
 - `config('processing.max_loss_pct')` (default `15.0`): soglia di perdita oltre cui la chiusura richiede `$force`.
-<<<<<<< HEAD
-=======
 - `config('processing.material_actions_enabled')` (default `true`): azioni native sul materiale nel pannello
   Processing (*Aggiungi input*, *Registra output*). Usato da solo, Processing consuma e crea unità di Warehouse
   senza altre regole. Un modulo che gestisce il materiale con regole proprie le spegne nel suo ServiceProvider e
@@ -127,29 +121,20 @@ con `force = true` senza l'abilità viene rifiutata.
   `RegisterProcessingOutputAction` restano disponibili al modulo che le compone. Motivo: in Roosko
   *Aggiungi input* consumava unità senza scarico di registro e *Registra output* creava unità senza lotto
   (audit funzionale 1.4).
->>>>>>> laraxot/dev
 - Le Actions sono queueable e risolte dal container: il modulo di prodotto le compone (es. Roosko
   `StartTreatmentAction` = Create + Start + AddInput + scritture di registro).
 
 ## Permessi
 
 Policy in `app/Models/Policies`, permessi `{model_snake}.{viewAny,view,create,update,delete}`
-<<<<<<< HEAD
-(`machine.*`, `processing_order.*`, ...). Per input, output e genealogia `update`/`delete` sono sempre negati.
-=======
 (`machine.*`, `processing_order.*`, ...) più le abilità dei bottoni dell'ordine (tabella sopra). Per input,
 output e genealogia `update`/`delete` sono sempre negati.
->>>>>>> laraxot/dev
 
 ## Test
 
 `tests/Unit`: bilancio di massa, quote di genealogia (1→1, 2→1, 2→2, perdite oltre soglia), transizioni di stato.
-<<<<<<< HEAD
-`tests/Feature`: tracciabilità su grafo a 3 livelli (anche con ciclo), ciclo completo di un ordine con Warehouse.
-=======
 `tests/Feature`: tracciabilità su grafo a 3 livelli (anche con ciclo), ciclo completo di un ordine con Warehouse,
 abilità dei bottoni, "forza chiusura" e punto di estensione delle azioni sul materiale
 (`ProcessingOrderActionAuthorizationTest`).
 
 Storie: [`docs/stories/`](stories/).
->>>>>>> laraxot/dev

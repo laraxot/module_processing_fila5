@@ -7,21 +7,15 @@ namespace Modules\Processing\Filament\Actions;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-<<<<<<< HEAD
-=======
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
->>>>>>> laraxot/dev
 use Modules\Processing\Actions\RegisterProcessingOutputAction;
 use Modules\Processing\Enums\OutputKindEnum;
 use Modules\Processing\Models\ProcessingOrder;
 use Modules\Processing\Models\ProcessingOutput;
 use Modules\Warehouse\Datas\StockUnitData;
 use Modules\Warehouse\Enums\ContainerTypeEnum;
-<<<<<<< HEAD
-=======
 use Modules\Warehouse\Models\Area;
->>>>>>> laraxot/dev
 use Modules\Warehouse\Models\Location;
 use Modules\Warehouse\Models\Warehouse;
 use Modules\Xot\Actions\Cast\SafeIntCastAction;
@@ -30,13 +24,10 @@ use Modules\Xot\Actions\Cast\SafeStringCastAction;
 
 /**
  * "Registra output": crea la nuova unità in Warehouse (movimento production) e la lega all'ordine.
-<<<<<<< HEAD
-=======
  *
  * Azione nativa sul materiale: l'unità nasce senza contenuto di dominio (in Roosko: senza lotto,
  * QR e registro). Si spegne con `processing.material_actions_enabled` quando un altro modulo
  * registra gli output con le proprie regole. Le posizioni proposte sono quelle attive del magazzino scelto.
->>>>>>> laraxot/dev
  */
 class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
 {
@@ -58,11 +49,8 @@ class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
                     ->required(),
                 Select::make('warehouse_id')
                     ->options(static fn (): array => self::codeOptions(Warehouse::query()->orderBy('code')->pluck('code', 'id')->all()))
-<<<<<<< HEAD
-=======
                     ->live()
                     ->afterStateUpdated(static fn (Set $set): mixed => $set('location_id', null))
->>>>>>> laraxot/dev
                     ->required(),
                 Select::make('container_type')
                     ->options(ContainerTypeEnum::class)
@@ -79,15 +67,6 @@ class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
                     ->step(0.001)
                     ->suffix('kg'),
                 Select::make('location_id')
-<<<<<<< HEAD
-                    ->options(static fn (): array => self::codeOptions(Location::query()->orderBy('code')->pluck('code', 'id')->all()))
-                    ->searchable(),
-                Textarea::make('notes')->rows(2),
-            ])
-            ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->acceptsMaterial())
-            ->refreshOrderPage()
-            ->action(function (array $data): void {
-=======
                     ->options(static fn (Get $get): array => self::locationOptions($get('warehouse_id')))
                     ->searchable(),
                 Textarea::make('notes')->rows(2),
@@ -98,7 +77,6 @@ class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
             ->action(function (array $data): void {
                 $this->ensureMaterialActionsEnabled();
                 $this->ensureAllowed('registerOutput');
->>>>>>> laraxot/dev
                 $kindValue = $data['kind'] ?? null;
                 $kind = $kindValue instanceof OutputKindEnum ? $kindValue : OutputKindEnum::from(SafeStringCastAction::cast($kindValue));
                 $containerValue = $data['container_type'] ?? null;
@@ -121,8 +99,6 @@ class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Posizioni attive delle aree attive del magazzino scelto (nessuna finché il magazzino non è scelto).
      *
      * @return array<int, string>
@@ -142,7 +118,6 @@ class RegisterProcessingOutputHeaderAction extends ProcessingOrderAction
     }
 
     /**
->>>>>>> laraxot/dev
      * @param  array<array-key, mixed>  $rows
      * @return array<int, string>
      */

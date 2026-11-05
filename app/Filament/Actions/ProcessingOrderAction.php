@@ -6,11 +6,8 @@ namespace Modules\Processing\Filament\Actions;
 
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-<<<<<<< HEAD
-=======
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
->>>>>>> laraxot/dev
 use Livewire\Component;
 use Modules\Processing\Filament\Resources\ProcessingOrderResource;
 use Modules\Processing\Models\ProcessingOrder;
@@ -24,13 +21,10 @@ use Webmozart\Assert\InvalidArgumentException as AssertionFailed;
  * Testi da `lang/{locale}/processing_order.php` sotto `actions.{nome}.*`.
  * Funzionano sia come header action della pagina View (record = ordine) sia come
  * header action di un RelationManager dell'ordine (ordine = owner record).
-<<<<<<< HEAD
-=======
  *
  * Ogni bottone che cambia dati dichiara l'abilità della ProcessingOrderPolicy che lo governa
  * (`authorizeOrder()`): senza il permesso il bottone è nascosto e la chiamata Livewire diretta
  * viene rifiutata. Dentro la callback si ricontrolla con `ensureAllowed()`.
->>>>>>> laraxot/dev
  */
 abstract class ProcessingOrderAction extends XotBaseAction
 {
@@ -55,10 +49,6 @@ abstract class ProcessingOrderAction extends XotBaseAction
         $this->successNotificationTitle(fn (): string => $this->actionTrans('success'));
     }
 
-<<<<<<< HEAD
-    protected function resolveOrder(): ProcessingOrder
-    {
-=======
     /**
      * Le azioni native sul materiale ("Aggiungi input", "Registra output") sono attive?
      *
@@ -121,7 +111,6 @@ abstract class ProcessingOrderAction extends XotBaseAction
 
     private function findOrder(): ?ProcessingOrder
     {
->>>>>>> laraxot/dev
         $record = $this->getRecord();
         if ($record instanceof ProcessingOrder) {
             return $record;
@@ -135,11 +124,7 @@ abstract class ProcessingOrderAction extends XotBaseAction
             }
         }
 
-<<<<<<< HEAD
-        throw new \LogicException(static::class.' requires a ProcessingOrder record or owner record.');
-=======
         return null;
->>>>>>> laraxot/dev
     }
 
     /**
@@ -192,15 +177,7 @@ abstract class ProcessingOrderAction extends XotBaseAction
     protected function isAvailableWhen(\Closure $condition): static
     {
         return $this->visible(function () use ($condition): bool {
-<<<<<<< HEAD
-            $record = $this->getRecord();
-            $livewire = $this->getLivewire();
-            $order = $record instanceof ProcessingOrder
-                ? $record
-                : ($livewire instanceof RelationManager ? $livewire->getOwnerRecord() : null);
-=======
             $order = $this->findOrder();
->>>>>>> laraxot/dev
 
             return $order instanceof ProcessingOrder && $condition($order);
         });

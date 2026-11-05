@@ -18,8 +18,6 @@ return [
      * Dipende dal tipo di impianto: ogni installazione lo regola.
      */
     'max_loss_pct' => 15.0,
-<<<<<<< HEAD
-=======
 
     /*
      * Punto di estensione: azioni native sul materiale nel pannello Processing
@@ -32,5 +30,4 @@ return [
      * disponibili per il modulo che le usa: si nascondono solo i bottoni di Processing.
      */
     'material_actions_enabled' => true,
->>>>>>> laraxot/dev
 ];

@@ -6,11 +6,6 @@ namespace Modules\Processing\Models\Policies;
 
 use Modules\User\Models\Policies\UserBasePolicy;
 use Modules\Xot\Contracts\UserContract;
-<<<<<<< HEAD
-
-class ProcessingOrderPolicy extends UserBasePolicy
-{
-=======
 use Modules\Xot\Models\Policies\Concerns\DeniesUndeclaredFilamentAbilities;
 
 /**
@@ -22,7 +17,6 @@ class ProcessingOrderPolicy extends UserBasePolicy
 {
     use DeniesUndeclaredFilamentAbilities;
 
->>>>>>> laraxot/dev
     public function viewAny(UserContract $user): bool
     {
         return $user->hasPermissionTo('processing_order.viewAny');
@@ -47,8 +41,6 @@ class ProcessingOrderPolicy extends UserBasePolicy
     {
         return $user->hasPermissionTo('processing_order.delete');
     }
-<<<<<<< HEAD
-=======
 
     public function start(UserContract $user): bool
     {
@@ -80,5 +72,4 @@ class ProcessingOrderPolicy extends UserBasePolicy
     {
         return $user->hasPermissionTo('processing_order.registerOutput');
     }
->>>>>>> laraxot/dev
 }

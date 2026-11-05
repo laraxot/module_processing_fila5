@@ -29,11 +29,13 @@ class CancelProcessingOrderHeaderAction extends ProcessingOrderAction
             ->schema([
                 Textarea::make('reason')->required()->maxLength(1000)->rows(3),
             ])
+            ->authorizeOrder('cancel')
             ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->canTransitionTo(ProcessingOrderStatusEnum::CANCELLED)
                 && $order->inputs()->doesntExist()
                 && $order->outputs()->doesntExist())
             ->redirectToOrder()
             ->action(function (array $data): void {
+                $this->ensureAllowed('cancel');
                 $reason = SafeStringCastAction::cast($data['reason'] ?? '');
                 $this->runDomain(
                     fn (): ProcessingOrder => app(CancelProcessingOrderAction::class)->execute($this->resolveOrder(), $reason),

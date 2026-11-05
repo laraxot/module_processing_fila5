@@ -25,9 +25,11 @@ class StartProcessingOrderHeaderAction extends ProcessingOrderAction
         $this->icon('heroicon-o-play')
             ->color('primary')
             ->requiresConfirmation()
+            ->authorizeOrder('start')
             ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->canTransitionTo(ProcessingOrderStatusEnum::IN_PROGRESS))
             ->redirectToOrder()
             ->action(function (): void {
+                $this->ensureAllowed('start');
                 $this->runDomain(fn (): ProcessingOrder => app(StartProcessingOrderAction::class)->execute($this->resolveOrder()));
             });
     }

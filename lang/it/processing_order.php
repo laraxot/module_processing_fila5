@@ -278,4 +278,10 @@ return [
             'icon' => 'heroicon-o-plus-circle',
         ],
     ],
+<<<<<<< HEAD
+=======
+    'messages' => [
+        'material_actions_disabled' => 'Le azioni sul materiale di Processing sono disattivate in questa installazione: usa quelle del modulo che gestisce il materiale.',
+    ],
+>>>>>>> laraxot/dev
 ];

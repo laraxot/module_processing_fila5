@@ -25,9 +25,17 @@ class StartProcessingOrderHeaderAction extends ProcessingOrderAction
         $this->icon('heroicon-o-play')
             ->color('primary')
             ->requiresConfirmation()
+<<<<<<< HEAD
             ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->canTransitionTo(ProcessingOrderStatusEnum::IN_PROGRESS))
             ->redirectToOrder()
             ->action(function (): void {
+=======
+            ->authorizeOrder('start')
+            ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->canTransitionTo(ProcessingOrderStatusEnum::IN_PROGRESS))
+            ->redirectToOrder()
+            ->action(function (): void {
+                $this->ensureAllowed('start');
+>>>>>>> laraxot/dev
                 $this->runDomain(fn (): ProcessingOrder => app(StartProcessingOrderAction::class)->execute($this->resolveOrder()));
             });
     }

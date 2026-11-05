@@ -16,6 +16,13 @@ use Modules\Xot\Actions\Cast\SafeStringCastAction;
  * "Aggiungi input": l'operatore digita o scansiona il codice dell'unità (lettore barcode/RFID in
  * keyboard wedge: il campo ha il fuoco e il lettore "digita" il codice seguito da Invio).
  * Kg vuoto = intera unità.
+<<<<<<< HEAD
+=======
+ *
+ * Azione nativa sul materiale: consuma l'unità in Warehouse senza altre regole di dominio
+ * (nessun lotto, nessuno scarico di registro). Si spegne con `processing.material_actions_enabled`
+ * quando un altro modulo (Roosko) gestisce gli input con le proprie regole.
+>>>>>>> laraxot/dev
  */
 class AddProcessingInputHeaderAction extends ProcessingOrderAction
 {
@@ -42,9 +49,18 @@ class AddProcessingInputHeaderAction extends ProcessingOrderAction
                     ->step(0.001)
                     ->suffix('kg'),
             ])
+<<<<<<< HEAD
             ->isAvailableWhen(static fn (ProcessingOrder $order): bool => $order->status->acceptsMaterial())
             ->refreshOrderPage()
             ->action(function (array $data): void {
+=======
+            ->authorizeOrder('addInput')
+            ->isAvailableWhen(static fn (ProcessingOrder $order): bool => static::materialActionsEnabled() && $order->status->acceptsMaterial())
+            ->refreshOrderPage()
+            ->action(function (array $data): void {
+                $this->ensureMaterialActionsEnabled();
+                $this->ensureAllowed('addInput');
+>>>>>>> laraxot/dev
                 $code = SafeStringCastAction::cast($data['stock_unit_code'] ?? '');
                 $kg = isset($data['quantity_kg']) && is_numeric($data['quantity_kg']) ? (float) $data['quantity_kg'] : null;
 

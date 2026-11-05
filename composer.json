@@ -1,0 +1,73 @@
+{
+    "name": "laraxot/module_processing_fila5",
+    "description": "Generic processing module for the Laraxot ecosystem: machines, processing orders consuming and producing stock units, mass balance, lineage and upstream/downstream traceability.",
+    "keywords": [
+        "laraxot",
+        "laravel",
+        "filament",
+        "module_processing",
+        "processing",
+        "lineage",
+        "traceability",
+        "mass-balance"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marco Sottana",
+            "email": "marco.sottana@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Processing\\Providers\\ProcessingServiceProvider",
+                "Modules\\Processing\\Providers\\Filament\\AdminPanelProvider"
+            ],
+            "aliases": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Processing\\": "app/",
+            "Modules\\Processing\\Database\\Factories\\": "database/factories/",
+            "Modules\\Processing\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Processing\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.3"
+    },
+    "require-dev": {},
+    "repositories_comment": [
+        {
+            "type": "path",
+            "url": "../Xot"
+        },
+        {
+            "type": "path",
+            "url": "../Warehouse"
+        }
+    ],
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "./vendor/bin/pest --no-coverage",
+        "lint": [
+            "@php vendor/bin/pint",
+            "@php vendor/bin/phpstan analyse"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "wikimedia/composer-merge-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

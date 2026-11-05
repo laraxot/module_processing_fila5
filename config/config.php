@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 return [
+    'icon' => 'heroicon-o-cog-6-tooth',
+    'navigation_sort' => 3,
     'name' => 'Processing',
     'description' => 'Lavorazioni, bilancio di massa e tracciabilità',
     'navigation' => [

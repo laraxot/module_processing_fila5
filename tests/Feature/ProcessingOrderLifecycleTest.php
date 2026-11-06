@@ -32,6 +32,7 @@ use Modules\Warehouse\Enums\MovementTypeEnum;
 use Modules\Warehouse\Models\StockMovement;
 use Modules\Warehouse\Models\StockUnit;
 use Modules\Warehouse\Models\Warehouse;
+use Modules\Xot\Actions\Cast\SafeIntCastAction;
 use PHPUnit\Framework\Assert;
 use Webmozart\Assert\InvalidArgumentException;
 
@@ -60,7 +61,7 @@ function poMachine(): Machine
 function poUnitData(Warehouse $warehouse, float $kg): StockUnitData
 {
     return new StockUnitData(
-        warehouseId: (int) $warehouse->getKey(),
+        warehouseId: SafeIntCastAction::cast($warehouse->getKey()),
         containerType: ContainerTypeEnum::BIG_BAG,
         netWeightKg: $kg,
     );
@@ -126,7 +127,7 @@ describe('ciclo completo di un ordine di lavorazione', function (): void {
 
         $links = LineageLink::query()->where('processing_order_id', $order->id)->get();
         Assert::assertCount(4, $links);
-        $productFromA = $links->first(static fn (LineageLink $l): bool => $l->parent_stock_unit_id === (int) $a->getKey()
+        $productFromA = $links->first(static fn (LineageLink $l): bool => $l->parent_stock_unit_id === SafeIntCastAction::cast($a->getKey())
             && $l->child_stock_unit_id === $product->stock_unit_id);
         Assert::assertNotNull($productFromA);
         Assert::assertSame('0.600000', $productFromA->share);

@@ -11,6 +11,7 @@ use Modules\Processing\Models\LineageLink;
 use Modules\Processing\Models\ProcessingOrder;
 use Modules\Processing\Tests\TestCase;
 use Modules\Warehouse\Models\StockUnit;
+use Modules\Xot\Actions\Cast\SafeIntCastAction;
 use PHPUnit\Framework\Assert;
 
 uses(TestCase::class);
@@ -100,7 +101,7 @@ describe('TraceUpstreamAction', function (): void {
         Assert::assertSame(0.45, $a->cumulativeShare);
         Assert::assertSame(342.0, $a->attributedKg);
         Assert::assertSame($orders[0]->id, $a->processingOrderId);
-        Assert::assertSame((int) $u['C']->getKey(), $a->viaStockUnitId);
+        Assert::assertSame(SafeIntCastAction::cast($u['C']->getKey()), $a->viaStockUnitId);
 
         // Le foglie (A, B, D) coprono l'intera massa di G.
         $leaves = $byCode[$u['A']->code]->attributedKg + $byCode[$u['B']->code]->attributedKg + $byCode[$u['D']->code]->attributedKg;

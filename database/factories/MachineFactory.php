@@ -7,6 +7,7 @@ namespace Modules\Processing\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Processing\Enums\MachineTypeEnum;
 use Modules\Processing\Models\Machine;
+use Modules\Xot\Actions\Cast\SafeStringCastAction;
 
 /**
  * @extends Factory<Machine>
@@ -25,7 +26,7 @@ class MachineFactory extends Factory
     {
         return [
             'code' => 'M-'.$this->faker->unique()->numerify('####'),
-            'name' => ucfirst($this->faker->words(2, true)),
+            'name' => ucfirst(SafeStringCastAction::cast($this->faker->words(2, true))),
             'type' => $this->faker->randomElement(MachineTypeEnum::cases()),
             'location_ref_id' => null,
             'capacity_kg_h' => $this->faker->randomFloat(3, 500, 20000),

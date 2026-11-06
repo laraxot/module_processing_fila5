@@ -55,7 +55,7 @@ class TraceabilityPage extends XotBasePage
     /**
      * @return array<string, Component>
      */
-    public function getFormSchema(): array
+    public function getTraceabilityFormSchema(): array
     {
         return [
             'code' => TextInput::make('code')
@@ -69,7 +69,7 @@ class TraceabilityPage extends XotBasePage
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->components($this->getFormSchema())
+            ->components($this->getTraceabilityFormSchema())
             ->statePath('data');
     }
 

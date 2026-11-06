@@ -33,6 +33,16 @@ function poActingWith(array $abilities): void
     Gate::before(static fn (mixed $_user, string $ability): ?bool => \in_array($ability, $abilities, true) ? true : null);
 }
 
+function poUserContract(): UserContract
+{
+    $user = \Mockery::mock(UserContract::class);
+    if (! $user instanceof UserContract) {
+        throw new \LogicException('Processing policy test double must implement UserContract.');
+    }
+
+    return $user;
+}
+
 function poOrderIn(ProcessingOrderStatusEnum $status): ProcessingOrder
 {
     $order = ProcessingOrder::factory()->createOne(['status' => $status]);
@@ -108,6 +118,9 @@ describe('forza la chiusura', function (): void {
         $user = \Mockery::mock(UserContract::class);
         $user->shouldReceive('hasPermissionTo')->with('processing_order.forceComplete')->once()->andReturn(false);
         $user->shouldReceive('hasPermissionTo')->with('processing_order.complete')->once()->andReturn(true);
+        if (! $user instanceof UserContract) {
+            throw new \LogicException('Processing policy test double must implement UserContract.');
+        }
 
         $policy = new ProcessingOrderPolicy;
 
@@ -116,7 +129,7 @@ describe('forza la chiusura', function (): void {
     });
 
     test('the policy denies the Filament abilities it does not declare', function (): void {
-        $user = \Mockery::mock(UserContract::class);
+        $user = poUserContract();
         $policy = new ProcessingOrderPolicy;
 
         Assert::assertFalse($policy->deleteAny($user));

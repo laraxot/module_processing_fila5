@@ -11,6 +11,7 @@ use Modules\Processing\Models\Machine;
 use Modules\Xot\Actions\Cast\SafeIntCastAction;
 use Modules\Xot\Actions\Cast\SafeNullableStringCastAction;
 use Modules\Xot\Filament\Resources\Pages\XotBaseCreateRecord;
+use Safe\DateTimeImmutable;
 
 /**
  * La creazione passa da CreateProcessingOrderAction (codice PO-{anno}-{progr}, stato draft).
@@ -30,7 +31,7 @@ class CreateProcessingOrder extends XotBaseCreateRecord
         return app(CreateProcessingOrderAction::class)->execute(
             $machine,
             SafeNullableStringCastAction::cast($data['operation_code'] ?? null),
-            $plannedAt instanceof \DateTimeInterface ? $plannedAt : (is_string($plannedAt) && $plannedAt !== '' ? new \DateTimeImmutable($plannedAt) : null),
+            $plannedAt instanceof \DateTimeInterface ? $plannedAt : (is_string($plannedAt) && $plannedAt !== '' ? new DateTimeImmutable($plannedAt) : null),
             SafeNullableStringCastAction::cast($data['notes'] ?? null),
         );
     }

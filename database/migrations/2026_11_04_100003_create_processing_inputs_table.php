@@ -22,4 +22,13 @@ return new class extends XotBaseMigration
             $this->updateTimestamps($table, false);
         });
     }
+
+    /**
+     * Mai `drop`: la tabella contiene input delle lavorazioni (tracciabilità). Un `migrate:rollback` non deve
+     * cancellare dati legali (audit database R15); si torna indietro solo con una migrazione in avanti.
+     */
+    public function down(): void
+    {
+        throw new \LogicException('Rollback vietato: '.$this->getTable().' contiene dati legali/di tracciabilità; usare una migrazione in avanti.');
+    }
 };

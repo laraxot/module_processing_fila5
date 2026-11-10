@@ -36,11 +36,11 @@ class MachineFactory extends Factory
 
     public function inactive(): static
     {
-        return $this->state(static fn (array $_attributes): array => ['is_active' => false]);
+        return $this->state(fn (array $_attributes): array => ['is_active' => false]);
     }
 
     public function ofType(MachineTypeEnum $type): static
     {
-        return $this->state(static fn (array $_attributes): array => ['type' => $type]);
+        return $this->state(fn (array $_attributes): array => ['type' => $type]);
     }
 }

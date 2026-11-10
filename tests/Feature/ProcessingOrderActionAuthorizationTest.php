@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Modules\Processing\Tests\Feature;
 
 use Illuminate\Auth\GenericUser;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Modules\Processing\Enums\ProcessingOrderStatusEnum;
 use Modules\Processing\Filament\Actions\AddProcessingInputHeaderAction;
@@ -29,8 +32,11 @@ uses(TestCase::class);
  */
 function poActingWith(array $abilities): void
 {
-    test()->actingAs(new GenericUser(['id' => 1]));
-    Gate::before(static fn (mixed $_user, string $ability): ?bool => \in_array($ability, $abilities, true) ? true : null);
+    Auth::setUser(new class(['id' => 1]) extends GenericUser implements AuthorizableContract
+    {
+        use Authorizable;
+    });
+    Gate::before(static fn (mixed $_user, string $ability): bool => \in_array($ability, $abilities, true));
 }
 
 function poUserContract(): UserContract
@@ -52,8 +58,16 @@ function poOrderIn(ProcessingOrderStatusEnum $status): ProcessingOrder
 }
 
 describe('punto di estensione processing.material_actions_enabled', function (): void {
-    test('is enabled by default', function (): void {
-        Assert::assertTrue(config('processing.material_actions_enabled'));
+    beforeEach(function (): void {
+        // Nell'app completa Roosko lo spegne nel suo ServiceProvider: qui si prova Processing da solo.
+        config(['processing.material_actions_enabled' => true]);
+    });
+
+    test('is enabled by default in the module configuration', function (): void {
+        /** @var array<string, mixed> $config */
+        $config = require \dirname(__DIR__, 2).'/config/config.php';
+
+        Assert::assertTrue($config['material_actions_enabled']);
         Assert::assertTrue(ProcessingOrderAction::materialActionsEnabled());
     });
 

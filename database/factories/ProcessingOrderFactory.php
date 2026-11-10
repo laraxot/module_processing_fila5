@@ -40,7 +40,7 @@ class ProcessingOrderFactory extends Factory
 
     public function inProgress(): static
     {
-        return $this->state(static fn (array $_attributes): array => [
+        return $this->state(fn (array $_attributes): array => [
             'status' => ProcessingOrderStatusEnum::IN_PROGRESS,
             'started_at' => CarbonImmutable::now(),
         ]);

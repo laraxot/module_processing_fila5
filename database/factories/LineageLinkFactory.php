@@ -39,7 +39,7 @@ class LineageLinkFactory extends Factory
 
     public function between(StockUnit $parent, StockUnit $child, float $share, float $attributedKg): static
     {
-        return $this->state(static fn (array $_attributes): array => [
+        return $this->state(fn (array $_attributes): array => [
             'parent_stock_unit_id' => SafeIntCastAction::cast($parent->getKey()),
             'child_stock_unit_id' => SafeIntCastAction::cast($child->getKey()),
             'share' => $share,

@@ -17,6 +17,7 @@ class ProcessingDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            ProcessingPermissionSeeder::class,
             MachineSeeder::class,
         ]);
     }

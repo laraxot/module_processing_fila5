@@ -129,6 +129,9 @@ con `force = true` senza l'abilità viene rifiutata.
 Policy in `app/Models/Policies`, permessi `{model_snake}.{viewAny,view,create,update,delete}`
 (`machine.*`, `processing_order.*`, ...) più le abilità dei bottoni dell'ordine (tabella sopra). Per input,
 output e genealogia `update`/`delete` sono sempre negati.
+Policy con `DeniesUndeclaredFilamentAbilities`; permessi creati da `ProcessingPermissionSeeder` (idempotente,
+chiamato da `ProcessingDatabaseSeeder`). `TraceabilityPage::canAccess()` richiede `processing_order.viewAny`.
+
 
 ## Test
 

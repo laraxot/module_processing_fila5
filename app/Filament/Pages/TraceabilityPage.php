@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
 use Filament\Schemas\Schema;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\Gate;
 use Modules\Processing\Actions\ResolveStockUnitByCodeAction;
 use Modules\Processing\Actions\TraceDownstreamAction;
 use Modules\Processing\Actions\TraceUpstreamAction;
@@ -31,6 +32,12 @@ use Modules\Xot\Filament\Traits\NavigationLabelTrait;
  */
 class TraceabilityPage extends XotBasePage
 {
+    /** Solo chi può vedere gli ordini di lavorazione (permesso `processing_order.viewAny`). */
+    public static function canAccess(): bool
+    {
+        return Gate::allows('viewAny', ProcessingOrder::class);
+    }
+
     use NavigationLabelTrait;
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-share';
